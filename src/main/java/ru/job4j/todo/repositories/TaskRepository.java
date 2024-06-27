@@ -1,11 +1,11 @@
-package ru.job4j.todo.services;
+package ru.job4j.todo.repositories;
 
 import ru.job4j.todo.model.Task;
 
 import java.util.Collection;
 import java.util.Optional;
 
-public interface TaskService {
+public interface TaskRepository {
 
     Optional<Task> create(Task task);
 
