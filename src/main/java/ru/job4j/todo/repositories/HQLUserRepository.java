@@ -15,8 +15,14 @@ public class HQLUserRepository implements UserRepository {
 
     @Override
     public Optional<User> save(User user) {
-        crudRepository.run(session -> session.persist(user));
-        return Optional.ofNullable(user);
+        Optional<User> rsl = Optional.empty();
+        try {
+            crudRepository.run(session -> session.persist(user));
+            rsl = Optional.of(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rsl;
     }
 
     @Override
