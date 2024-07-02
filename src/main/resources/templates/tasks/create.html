@@ -31,6 +31,13 @@
                     <option th:each="priority : ${priorities}" th:value="${priority.id}" th:text="${priority.name}"></option>
                 </select>
             </div>
+            <div class="mb-3">
+                <label for="priority">Выберите категорию</label>
+                <select class="from-check-label" id="category" name="categoryList" multiple>
+                    <option th:each="category : ${categories}" th:value="${category.id}"
+                            th:text="${category.name}"></option>
+                </select>
+            </div>
             <div class="form-check mb-3">
                 <input type="checkbox" name="done" class="form-check-input" id="done">
                 <label class="form-check-label" for="done">Указать задание как выполненное</label>

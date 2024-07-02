@@ -17,7 +17,7 @@
     <div class="container">
         <div class="container">
             <div class="container mt-2">
-                <h5>Бастрая навигация по списку</h5>
+                <h5>Быстрая навигация по списку</h5>
                 <ul>
                     <li><a th:href="@{/tasks/done}">Выполненные</a></li>
                     <li><a th:href="@{/tasks/new}">Новые</a></li>
@@ -34,6 +34,7 @@
                         <th scope="col">Состояние</th>
                         <th scope="col">Пользователь</th>
                         <th scope="col">Приоритет</th>
+                        <th scope="col">Категория</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -44,6 +45,15 @@
                         <td th:text="${task.done}"/>
                         <td th:text="${task.user != null ? task.user.name : ''}"/>
                         <td th:text="${task.priority.name}"></td>
+                        <td>
+                            <span th:if="${not #lists.isEmpty(task.categories)}">
+                       <span th:each="category, iterStat : ${task.categories}">
+                         <span th:text="${category.name}"></span>
+                           <span th:if="${not iterStat.last}">, </span>
+                            </span>
+                            </span>
+                            <span th:if="${#lists.isEmpty(task.categories)}">-</span>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
