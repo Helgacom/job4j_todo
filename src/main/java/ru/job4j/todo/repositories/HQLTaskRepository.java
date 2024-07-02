@@ -20,13 +20,13 @@ public class HQLTaskRepository implements TaskRepository {
 
     @Override
     public Collection<Task> findAll() {
-        return crudRepository.query("from Task", Task.class);
+        return crudRepository.query("FROM Task t JOIN FETCH t.priority", Task.class);
     }
 
     @Override
     public Optional<Task> findById(int id) {
         return crudRepository.optional(
-                "from Task where id = :fId", Task.class,
+                "FROM Task t JOIN FETCH t.priority WHERE id = :fId", Task.class,
                 Map.of("fId", id)
         );
     }
@@ -53,13 +53,13 @@ public class HQLTaskRepository implements TaskRepository {
 
     @Override
     public Collection<Task> findNew() {
-        return crudRepository.query("FROM Task t where done = :fDone order by t.id", Task.class,
+        return crudRepository.query("FROM Task t JOIN FETCH t.priority WHERE done = :fDone order by t.id", Task.class,
                 Map.of("fDone", false));
     }
 
     @Override
     public Collection<Task> findDone() {
-        return crudRepository.query("FROM Task t where done = :fDone order by t.id", Task.class,
+        return crudRepository.query("FROM Task t JOIN FETCH t.priority WHERE done = :fDone order by t.id", Task.class,
                 Map.of("fDone", true));
     }
 }

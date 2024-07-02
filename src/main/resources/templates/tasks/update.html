@@ -26,6 +26,12 @@
                 <input type="text" class="form-control" id="description" name="description"  th:field="${task.description}"
                        placeholder="Описание задачи">
             </div>
+            <div class="mb-3">
+                <label for="priority">Приоритет</label>
+                <select class="from-check-label" id="priority" name="priority.id">
+                    <option th:each="priority : ${priorities}" th:value="${priority.id}" th:text="${priority.name}"></option>
+                </select>
+            </div>
             <div class="form-check mb-3">
                 <input type="checkbox" name="done" class="form-check-input" id="done">
                 <label class="form-check-label" for="done">Указать задание как выполненное</label>

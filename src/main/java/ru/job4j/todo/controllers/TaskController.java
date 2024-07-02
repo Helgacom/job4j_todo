@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.todo.model.Task;
 import ru.job4j.todo.model.User;
+import ru.job4j.todo.services.PriorityService;
 import ru.job4j.todo.services.TaskService;
 
 import java.util.Optional;
@@ -16,6 +17,7 @@ import java.util.Optional;
 public class TaskController {
 
     private final TaskService taskService;
+    private final PriorityService priorityService;
 
     @GetMapping
     public String getAll(Model model) {
@@ -47,12 +49,13 @@ public class TaskController {
     }
 
     @GetMapping("/create")
-    public String getCreationPage() {
+    public String getCreationPage(Model model) {
+        model.addAttribute("priorities", priorityService.findAll());
         return "tasks/create";
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute Task task, Model model, @SessionAttribute User user) {
+    public String create(@ModelAttribute Task task, @SessionAttribute User user) {
         task.setUser(user);
         taskService.create(task);
         return "redirect:/tasks";
@@ -66,6 +69,7 @@ public class TaskController {
             return "error/error";
         }
         model.addAttribute("task", taskOptional.get());
+        model.addAttribute("priorities", priorityService.findAll());
         return "tasks/update";
     }
 
