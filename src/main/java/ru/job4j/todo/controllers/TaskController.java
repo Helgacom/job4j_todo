@@ -4,17 +4,18 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.job4j.todo.model.Category;
 import ru.job4j.todo.model.Task;
 import ru.job4j.todo.model.User;
 import ru.job4j.todo.services.CategoryService;
 import ru.job4j.todo.services.PriorityService;
 import ru.job4j.todo.services.TaskService;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
+import static ru.job4j.todo.timezone.TimeZoneConverter.convert;
 
 @Controller
 @AllArgsConstructor
@@ -26,8 +27,9 @@ public class TaskController {
     private final CategoryService categoryService;
 
     @GetMapping
-    public String getAll(Model model) {
-        model.addAttribute("tasks", taskService.findAll());
+    public String getAll(Model model, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        model.addAttribute("tasks", convert(user, taskService.findAll()));
         return "tasks/list";
     }
 
@@ -43,14 +45,16 @@ public class TaskController {
     }
 
     @GetMapping("/new")
-    public String getNew(Model model) {
-        model.addAttribute("tasks", taskService.findNew());
+    public String getNew(Model model, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        model.addAttribute("tasks", convert(user, taskService.findNew()));
         return "tasks/new";
     }
 
     @GetMapping("/done")
-    public String getDone(Model model) {
-        model.addAttribute("tasks", taskService.findDone());
+    public String getDone(Model model, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        model.addAttribute("tasks", convert(user, taskService.findDone()));
         return "tasks/done";
     }
 

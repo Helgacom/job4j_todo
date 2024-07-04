@@ -35,6 +35,15 @@
                             <label for="password" class="form-label"><b>Пароль</b></label>
                             <input type="password" class="form-control" id="password" name="password" placeholder="пароль" required>
                         </div>
+                        <div class="form-group">
+                            <label for="timezone">Выберите часовой пояс</label>
+                            <select class="form-control" id="timezone" name="timezone">
+                                <option th:value="${zoneDefault}">местное время</option>
+                                <option th:each="zone : ${timezone}"
+                                        th:text="${zone}">
+                                </option>
+                            </select>
+                        </div>
                     </div>
                     <div class="mb-3 row">
                         <div class="col-6"></div>

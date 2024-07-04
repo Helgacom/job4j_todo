@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.job4j.todo.model.User;
 import ru.job4j.todo.services.UserService;
+import ru.job4j.todo.timezone.TimeZones;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.TimeZone;
 
 @Controller
 @RequestMapping("/users")
@@ -19,9 +21,12 @@ import javax.servlet.http.HttpSession;
 public class UserController {
 
     private final UserService userService;
+    private final TimeZones zones;
 
     @GetMapping("/register")
-    public String getRegistrationPage() {
+    public String getRegistrationPage(Model model) {
+        model.addAttribute("timezone", zones.getZones());
+        model.addAttribute("zoneDefault", TimeZone.getDefault().getID());
         return "users/register";
     }
 
@@ -30,7 +35,7 @@ public class UserController {
         var savedUser = userService.save(user);
         if (savedUser.isEmpty()) {
             model.addAttribute("message", "Пользователь с такой почтой уже существует");
-            return "errors/error";
+            return "error/error";
         }
         return "redirect:/index";
     }
